@@ -1,0 +1,155 @@
+{
+    "body": "{\"test\":\"body\"}",
+    "resource": "/{proxy+}",
+    "path": "/path/to/resource",
+    "httpMethod": "POST",
+    "queryStringParameters": {
+      "foo": "bar"
+    },
+    "pathParameters": {
+      "proxy": "path/to/resource"
+    },
+    "stageVariables": {
+      "baz": "qux"
+    },
+    "headers": {
+      "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+      "Accept-Encoding": "gzip, deflate, sdch",
+      "Accept-Language": "en-US,en;q=0.8",
+      "Cache-Control": "max-age=0",
+      "CloudFront-Forwarded-Proto": "https",
+      "CloudFront-Is-Desktop-Viewer": "true",
+      "CloudFront-Is-Mobile-Viewer": "false",
+      "CloudFront-Is-SmartTV-Viewer": "false",
+      "CloudFront-Is-Tablet-Viewer": "false",
+      "CloudFront-Viewer-Country": "US",
+      "Host": "1234567890.execute-api.{dns_suffix}",
+      "Upgrade-Insecure-Requests": "1",
+      "User-Agent": "Custom User Agent String",
+      "Via": "1.1 08f323deadbeefa7af34d5feb414ce27.cloudfront.net (CloudFront)",
+      "X-Amz-Cf-Id": "cDehVQoZnx43VYQb9j2-nvCh-9z396Uhbp027Y2JvkCPNLmGJHqlaA==",
+      "X-Forwarded-For": "127.0.0.1, 127.0.0.2",
+      "X-Forwarded-Port": "443",
+      "X-Forwarded-Proto": "https"
+    },
+    "requestContext": {
+      "accountId": "123456789012",
+      "resourceId": "123456",
+      "stage": "prod",
+      "requestId": "c6af9ac6-7b61-11e6-9a41-93e8deadbeef",
+      "identity": {
+        "cognitoIdentityPoolId": null,
+        "accountId": null,
+        "cognitoIdentityId": null,
+        "caller": null,
+        "apiKey": null,
+        "sourceIp": "127.0.0.1",
+        "cognitoAuthenticationType": null,
+        "cognitoAuthenticationProvider": null,
+        "userArn": null,
+        "userAgent": "Custom User Agent String",
+        "user": null
+      },
+      "resourcePath": "/{proxy+}",
+      "httpMethod": "POST",
+      "apiId": "1234567890"
+    }
+  }
+"CONTEXT VARIABLES"
+  { 
+    "apiId" : "$context.apiId", 
+    "routeKey" : "$context.routeKey", 
+    "authorizer" : "$context.authorizer", 
+    "messageId" : "$context.messageId", 
+    "integrationLatency" : "$context.integrationLatency", 
+    "eventType" : "$context.eventType", 
+    "error" : "$context.error", 
+    "extendedRequestId" : "$context.extendedRequestId", 
+    "requestTime" : "$context.requestTime", 
+    "stage" : "$context.stage", 
+    "connectedAt" : "$context.connectedAt", 
+    "requestTimeEpoch" : "$context.requestTimeEpoch", 
+    "requestId" : "$context.requestId", 
+    "connectionId" : "$context.connectionId"
+}
+{
+  'requestContext': {
+    'routeKey': '$default', 
+    'messageId': 'I2YxtdTpIAMCKRA=', 
+    'eventType': 'MESSAGE', 
+    'extendedRequestId': 'I2YxtG7iIAMF4rA=', 
+    'requestTime': '04/Mar/2020:05:23:10 +0000', 
+    'messageDirection': 'IN', 
+    'stage': 'dev', 
+    'connectedAt': 1583299286078, 
+    'requestTimeEpoch': 1583299390077, 
+    'identity': {
+      'cognitoIdentityPoolId': None, 
+      'cognitoIdentityId': None, 
+      'principalOrgId': None, 
+      'cognitoAuthenticationType': None, 
+      'userArn': None, 
+      'userAgent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.18362', 
+      'accountId': None, 
+      'caller': None, 
+      'sourceIp': '170.82.211.107', 
+      'accessKey': None, 
+      'cognitoAuthenticationProvider': None, 
+      'user': None
+    }, 
+    'requestId': 'I2YxtG7iIAMF4rA=',
+    'domainName': 'chat.twomanallfours.com', 
+    'connectionId': 'I2Yhdc2qIAMCKRA=', 
+    'apiId': 'ljy888l5y0'
+  }, 
+  'body': '{"route":"sendMessageRequest","userid":"Me","text":"sdfasdfasdf"}', 
+  'isBase64Encoded': False
+}
+
+dynamodb stream
+{
+  "Records": [
+      {
+          "eventID": "7de3041dd709b024af6f29e4fa13d34c",
+          "eventName": "INSERT",
+          "eventVersion": "1.1",
+          "eventSource": "aws:dynamodb",
+          "awsRegion": "us-west-2",
+          "dynamodb": {
+              "ApproximateCreationDateTime": 1479499740,
+              "Keys": {
+                  "Timestamp": {
+                      "S": "2016-11-18:12:09:36"
+                  },
+                  "Username": {
+                      "S": "John Doe"
+                  }
+              },
+              "NewImage": {
+                  "Timestamp": {
+                      "S": "2016-11-18:12:09:36"
+                  },
+                  "Message": {
+                      "S": "This is a bark from the Woofer social network"
+                  },
+                  "Username": {
+                      "S": "John Doe"
+                  }
+              },
+              "SequenceNumber": "13021600000000001596893679",
+              "SizeBytes": 112,
+              "StreamViewType": "NEW_IMAGE"
+          },
+          "eventSourceARN": "arn:aws:dynamodb:us-east-1:123456789012:table/BarkTable/stream/2016-11-16T20:42:48.104"
+      }
+  ]
+}
+
+lambda error response
+{
+  "errorMessage": "name 'x' is not defined",
+  "errorType": "NameError",
+  "stackTrace": [
+    "  File \"/var/task/error_function.py\", line 2, in lambda_handler\n    return x + 10\n"
+  ]
+}
