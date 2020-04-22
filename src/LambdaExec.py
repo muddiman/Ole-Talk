@@ -6,15 +6,24 @@ lAMBDA FUNCTION:    ANY
 """
 
 
+import os
 import json
 import Lambda_ConnectToChat 
-import lambda_broadcastMsg
+import Lambda_broadcastMsg
+import Lambda_ChatServer
+import Lambda_DisconnectFromChat 
+
 
 
 CONTEXT=None
-PATH=r"C:\Users\roger\Documents\Personal\dev\AllFours\All_Fours_Chat_Server\src\json\db_data_stream.json"
 
-request_object = {
+WD=os.getcwd()
+PATH=os.path.join(WD, 'Ole-Talk', 'src', 'json', 'db_data_stream.json')
+# FILE_PATH=os.path.join(WD, 'Ole-Talk', 'src', 'json', 'disconnection_request.json')
+COMPLETE_FILE_PATH=os.path.join(WD, 'Ole-Talk', 'src', 'json', 'disconnection_request.json')
+
+
+request_object = {      
     'requestContext': {
         'connectionId': 'example_id'
     },
@@ -25,19 +34,27 @@ request_object = {
             })
 }
 
-f = open(PATH, "rt")
-record_file = f.read()
-request_records = json.load(f)
+incoming_message = {
+    'body': {
+        'userid': 'guest',
+        'text': 'An incoming message!'
+    }
+}
+
+def file_handler(file_path):
+    file = open(file_path, "rt")
+    in_memory = file.read()
+    file.close()
+    return json.loads(in_memory)
 
 
 
-def build_request_obj():
-    pass
-
-
-#   MAIN
-connect = Lambda_ConnectToChat.lambda_handler(request_object, CONTEXT)
-print(connect)
-broadcast = lambda_broadcastMsg.lambda_handler(request_records, CONTEXT)
-f.close()
-print(broadcast)
+#           ***MAIN***
+connection_response = Lambda_ConnectToChat.lambda_handler(request_object, CONTEXT)
+print(connection_response)
+broadcast_msg_response = Lambda_broadcastMsg.lambda_handler(file_handler(PATH), CONTEXT)
+print(broadcast_msg_response)
+chat_serve = Lambda_ChatServer.lambda_handler(incoming_message, CONTEXT)
+print(chat_serve)
+disconnect_response = Lambda_DisconnectFromChat.lambda_handler(file_handler(COMPLETE_FILE_PATH), CONTEXT)
+print(disconnect_response)

@@ -29,6 +29,16 @@ def lambda_handler(event, context):
     return special_function(params)
 
 
+def std_response(status_code, response_msg):
+    return {
+    'statusCode':status_code,
+    'body': json.dumps({
+        'userid': 'SERVER MESSAGE',
+        'text': f"   ****** ATTN: {response_msg}. ******"
+    })
+}
+
+
 def special_function(*args, **kwargs):
     """ function description
     :param (list): args
@@ -64,6 +74,22 @@ def support_function(*args, **kwargs):
     :return:
     """
     pass
+
+STD_ERR_MSG={
+    "statusCode":400,
+    "body":json.dumps({
+        "userid": "SYSTEM MESSAGE",
+        "text": f"   ****** ATTN: lAMBDA ERROR: could not execute function. ******"
+    })
+}
+STD_SUCCESS_MSG={
+    'statusCode':200,
+    'body': json.dumps({
+        'userid': 'SERVER MESSAGE',
+        'text': f"   ****** ATTN: Message sent to all connected clients. ******"
+    })
+}
+
 
 # Copyright (c) 2020 Gallatin Engineering Ltd. All Rights Reserved.
 

@@ -5,17 +5,14 @@
 """
 
 import json
-import json
 import boto3
+from libs import database_lib as dlib
+from libs import standard_response_lib as std_lib
 from botocore.exceptions import ClientError
 
 
-AWS_REGION="us-east-1"
-DB_RESOURCE = boto3.resource(
-                    'dynamodb', 
-                    region_name=AWS_REGION
-                    )
-CONNECTIONS = DB_RESOURCE.Table('ChatSvrConnections')
+
+CHAT_SVR=dlib.Dbase('ChatSvrConnections')
 
 
 def lambda_handler(event, context):
@@ -39,29 +36,17 @@ def connectToChat(connect_id, user_id):
     :param (str): user_id -- the username chosen by the user.   \n 
     :return: (dict) 'system response' -- includes status code & message.  \n
     """
-    try:
-        CONNECTIONS.put_item(
-                    Item={
-                        'connectionId': connect_id,
-                        'userid': user_id
-                    }
-                )
-        # system response
-        return {
-            'statusCode': 200,
-            'body': json.dumps({
-                'userid': 'SERVER MESSAGE',
-                'text': f"   ****** ATTN: {id} connected to chat server. ******"
-            })
-        }
-    except ClientError as err:
-        # system response
-        return {
-            'statusCode': 400,
-            'body': json.dumps({
-                'userid': 'SERVER MESSAGE',
-                'text': err.response['Error']['Message']
-            })
-        }
-  
+    Item={
+        'connectionId': connect_id,
+        'userid': user_id
+    }
+    code, msg = CHAT_SVR.insert_record(**Item)   
+    return std_lib.std_response(code, msg)
+
+def checkConnection():
+    pass
+
+
+
+
 # Copyright (c) 2020 Gallatin Engineering Ltd. All Rights Reserved.

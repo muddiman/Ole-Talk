@@ -102,7 +102,7 @@
     'connectionId': 'I2Yhdc2qIAMCKRA=', 
     'apiId': 'ljy888l5y0'
   }, 
-  'body': '{"route":"sendMessageRequest","userid":"Me","text":"sdfasdfasdf"}', 
+  "body": "{"route":"sendMessageRequest","userid":"Me","text":"sdfasdfasdf"}", 
   'isBase64Encoded': False
 }
 
