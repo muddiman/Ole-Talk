@@ -1,25 +1,24 @@
-# TEST: CHAT_SERVER.PY
+# TEST: MODULE.PY
 
-import chat_server.py
+import module.py
 import unittest
 
 
 class Test(unittest.TestCase):
-    def test_start(self):
+    def moduleMethod(self):
         pass
 
-    def test_broadcast(self):
+    def moduleFunction(self):
         pass
 
-    def test_chat_room(self):
+    def moduleMethod2(self):
         pass
 
-    def test_connection(self):
+    def moduleFunction2(self):
         pass
 
-    def process_incoming_msg(self):
-        pass
 
+#################################FOR TEST RUNNER###############################
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,43 +1,27 @@
-"""UNIT TESTS for 'standard_response_lib.py' module. \n 
+""" TEST: STANDARD_RESPONSE_LIB.PY  \n
+UNIT TESTS for 'standard_response_lib.py' module. \n 
 """
 
 
-from ..libs import standard_response_lib 
+import standard_response_lib.py
 import unittest
-import json
 
 
-def setUp():
-    pass
-
-class Test_standard_response_lib(unittest.TestCase):
-    def test_std_response(self):
-        code = 200
-        msg = "Success!!"
-        jsonObj = json.dumps({
-            "userid": "SERVER MESSAGE",
-            "text": "****** Success!!. ******"
-        })
-        expected = {
-            "statusCode": 200,
-            "body": jsonObj
-            }
-        result = libs.standard_response_lib.std_response(code, msg)        
-        self.assertEqual(result, expected)
-
-
-
-
-"""     def test_lambda_handler(self):
+class Test(unittest.TestCase):
+    def moduleMethod(self):
         pass
 
-    def test_connectToChat(self):
+    def moduleFunction(self):
         pass
 
-    def test_checkConnection(self):
+    def moduleMethod2(self):
         pass
- """
 
+    def moduleFunction2(self):
+        pass
+
+
+#################################FOR TEST RUNNER###############################
 
 if __name__ == "__main__":
     unittest.main()

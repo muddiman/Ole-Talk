@@ -5,6 +5,8 @@ the event passes through this function and send the message to all connected web
 @Module:            'broadcastMsg'
 @Web:               'https://gallatinengineering.com/pages/chat.html
 @Contact:           'developers@gallatinengineering.com'
+@AUTHOR/PROGRAMMER: muddicode/sauceCode
+@VERSION: 1.0.0
 :copyright: (c) 2020 Gallatin Enginering Ltd. All Rights Reserved.
 """
 
@@ -90,7 +92,6 @@ def send_msg(id, payload):
 #         'text': f"   ****** ATTN: {response_msg}. ******"
 #     })
 # }
-
 
 
 #     ******  Copyright (c) 2020 - Gallatin Engineering. All rights reserved. ******

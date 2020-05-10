@@ -1,6 +1,8 @@
 """DYNAMODB MODULE      \n
 Dynamodb access methods specifically for interacting with web socket connection
 tables and chat room tables.    \n
+    @AUTHOR/PROGRAMMER: muddicode/sauceCode \n
+    @VERSION: 1.0.0 \n
 """
 
 #   DATABASE LIBRARY
@@ -67,6 +69,30 @@ class Dbase:
             return err.response['Error']['Message']
 
 
+    def update_record(self, partition_key, key_attribute, update_key, update_value):
+        self.table.update_item(
+            Key={
+                partition_key: key_attribute
+            },
+            UpdateExpression='SET update_key = :val1',
+            ExpressionAttributeValues={
+                ':val1': update_value 
+            }
+        )
+
+
+    def scan_table(self):
+        """Gets all records in the table.       \n
+        :return: the response
+        """
+        response = client.scan(
+            TableName='ChatSvrConnections',
+            Limit=123,
+            Select='ALL_ATTRIBUTES'
+        )
+        return response
+
+
 
 class DynamoTable(object):
     # Class properties
@@ -131,6 +157,8 @@ if __name__ == "__main__":
     print(connections.insert_record(connectionId='wwdsa123', roomId='chat123'))
     print(connections.get_record('connectionId', 'wwdsa123'))
     print(connections.delete_record('connectionId', 'wwdsa123'))
+    print(connections.update_record())
+    print(connections.scan_table())
 
     # test_table = DynamoTable('test_table')
     # test_table.create_table('column1')
