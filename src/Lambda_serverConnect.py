@@ -3,7 +3,7 @@
 @Application:       'OLE TALK'          \n
 @Module:            'connectToServer'   \n
 @AUTHOR/PROGRAMMER: muddicode/sauceCode
-@VERSION: 1.0.0
+@VERSION: 1.2.0
 """
 
 
@@ -13,8 +13,10 @@ import libs.database_lib
 
 
 def  lambda_handler(event, context): 
+    conn_id=event['requestContext']['connectionId']
+    chat_server=event[body]['server']
     if event['requestContext']['connectionId'] != None:
-        response = openConnection(event['requestContext']['connectionId'])
+        response = openConnection()
         if response["statusCode"] == 200:
             return libs.standard_response_lib.std_response(200, '***Connected to server***')
         else:
@@ -23,15 +25,16 @@ def  lambda_handler(event, context):
         return libs.standard_response_lib.std_response(500, '***Could not connect to server!***')
 
 
-def openConnection(id_, userid):
+def openConnection(id_, userid, server, chatroom):
     """Connects to Chat Server. Inserts an entry of the specified connection id in the connections
     table of the database.   \n
     :param (string): connection id  \n
     :param (string): userid -- username or chat user handle
     :return: (string) success/fail msg  \n
     """
-    connections = new libs.database_lib.Dbase("connections")
-    statusCode, msg = connections.insert(connectionId=id_, userid=userid)
+
+    connections = libs.database_lib.Dbase()
+    statusCode, msg = connections.insert_record(server=server, chatroom=chat_room, connectionId=id_, userid=userid)
     if statusCode == 200:
         return libs.standard_response_lib.std_response(200, '***connection id successfully inserted into database***')
     else:

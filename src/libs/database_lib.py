@@ -1,4 +1,4 @@
-"""DYNAMODB MODULE      \n
+"""DYNAMODB MODULE:      \n
 Dynamodb access methods specifically for interacting with web socket connection
 tables and chat room tables.    \n
     @AUTHOR/PROGRAMMER: muddicode/sauceCode \n
@@ -12,6 +12,10 @@ import boto3
 from botocore.exceptions import ClientError
 
 
+#   CONSTANTS
+DB_TABLE='CHAT_DB'      #   Will always be CHAT_DB
+
+
 #       ******DATABASE FUNCTIONS******      
 
 
@@ -19,32 +23,37 @@ from botocore.exceptions import ClientError
 class Dbase:
     # Class properties
     AWS_REGION='us-east-1'
-    RESOURCE= boto3.resource(
+    RESOURCE=boto3.resource(
                     'dynamodb',
                     region_name=AWS_REGION,
                     )
+    CLIENT=boto3.client('dynamodb')
 
 
-    def __init__(self, table_name):  #, attr_name_list):
+    def __init__(self, table_name=DB_TABLE):  #, attr_name_list):
         self.table = Dbase.RESOURCE.Table(table_name)
+        self.client = Dbase.CLIENT
 
 
     def insert_record(self, **kwargs):
         """Add an item to the database table.   \n
-        :param (dict): attributes     \n 
+        :param (dict): kwargs - key-value pairs of item attributes     \n 
         :return: (int) response code, (str) response msg  \n
         """
         try:
             self.table.put_item(
                     Item=kwargs
                 )
-            return 200, f"Record: {kwargs} was successfully entered into {self.table} table."
+            return 200, f"Record: {kwargs} was successfully entered into {self.table} database table."
         except ClientError as err:
             return 500, err.response['Error']['Message']
 
 
-    def delete_record(self, partition_key, key_attribute):
+    def delete_record(self, key_attribute, partition_key='id' ):
         """Delete entry in Table.    \n 
+        :params string: key_attribute - the item id  \n
+        :params string: partition_key='id'  \n
+        :return: (int) statusCode - http status code, (string) message - status message \n
         """
         try:
             self.table.delete_item(
@@ -57,7 +66,12 @@ class Dbase:
             return 500, err.response['Error']['Message']
 
 
-    def get_record(self, partition_key, key_attribute):
+    def get_record(self, key_attribute, partition_key='id'):
+        """Retrieves an entry from the database Table.    \n 
+        :params string: key_attribute - the item id  \n
+        :params string: partition_key='id'  \n
+        :return: (int) statusCode - http status code, (string) message - status message \n
+        """        
         try:
             response = self.table.get_item(
                 Key={
@@ -69,7 +83,14 @@ class Dbase:
             return err.response['Error']['Message']
 
 
-    def update_record(self, partition_key, key_attribute, update_key, update_value):
+    def update_record(self, key_attribute, update_key, update_value, partition_key='id'):
+        """Modifies an entry in the database Table.    \n 
+        :params string: key_attribute - the item id  \n
+        :params string: update_key - key to be modified   \n
+        :params string: update_value - value to replace existing value  \n
+        :params string: partition_key='id'  \n
+        :return: (int) statusCode - http status code, (string) message - status message \n
+        """
         self.table.update_item(
             Key={
                 partition_key: key_attribute
@@ -83,9 +104,9 @@ class Dbase:
 
     def scan_table(self):
         """Gets all records in the table.       \n
-        :return: the response
+        :return: (dict) key - value output of the table.    \n
         """
-        response = client.scan(
+        response = self.client.scan(
             TableName='ChatSvrConnections',
             Limit=123,
             Select='ALL_ATTRIBUTES'
@@ -93,7 +114,30 @@ class Dbase:
         return response
 
 
+#   =================================================================================================
 
+# Test Code
+
+if __name__ == "__main__":
+    test = Dbase()
+    print(f"Table Name: {test.table}")
+    print(test.insert_record(id='good', server='OK'))
+    print(test.get_record('good'))
+    print(test.delete_record('good'))
+    
+
+    connections = Dbase('ChatSvrConnections')
+    print(f"Table Name: {connections.table}")
+    print(connections.insert_record(connectionId='wwdsa123', roomId='chat123'))
+    print(connections.get_record('wwdsa123', 'connectionId'))
+    print(connections.update_record('wwdsa123', 'roomId', 'new room', partition_key='connectionId'))
+    print(connections.delete_record('wwdsa123', 'connectionId'))
+    print(connections.scan_table())
+
+
+#   garbage code
+
+"""
 class DynamoTable(object):
     # Class properties
     AWS_REGION='us-east-1'
@@ -137,30 +181,4 @@ class DynamoTable(object):
     def delete_table(self):
         DynamoTable.RESOURCE.Table(self.table_name).delete()
 
-
-#   =================================================================================================
-
-# Test Code
-
-if __name__ == "__main__":
-    test = Dbase('test_table')
-    print(f"Table Name: {test.table}")
-    # print(f"Attribute Names: {test.attribute_names}")
-    print(test.insert_record(column1='good', column2='OK'))
-    print(test.get_record('column1', 'good'))
-    print(test.delete_record('column1','good'))
-    
-
-    connections = Dbase('ChatSvrConnections')
-    print(f"Table Name: {connections.table}")
-    # print(f"Attribute Names: {connections.attribute_names}")
-    print(connections.insert_record(connectionId='wwdsa123', roomId='chat123'))
-    print(connections.get_record('connectionId', 'wwdsa123'))
-    print(connections.delete_record('connectionId', 'wwdsa123'))
-    print(connections.update_record())
-    print(connections.scan_table())
-
-    # test_table = DynamoTable('test_table')
-    # test_table.create_table('column1')
-
-
+"""

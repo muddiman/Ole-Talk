@@ -12,7 +12,7 @@ import json
 
 
 def std_response(status_code, response_msg):
-    """Formats server messages in a standardised framwork
+    """Formats server messages in a standardised framework
     using the template below.   \n
     :param (int): status_code - standardized HTTP response code associated
     with these errors and exceptions.  \n

@@ -1,6 +1,7 @@
 """DYNAMODB MODULE      \n
-Dynamodb access methods specifically for interacting with web socket connection
+@DISCRIPTION: Dynamodb access methods specifically for interacting with web socket connection
 tables and chat room tables.    \n
+@VERSION: 1.2.0
 """
 
 #   DATABASE LIBRARY
@@ -90,7 +91,6 @@ class DynamoTable(object):
                             'AttributeName': partition_key,
                             'AttributeType': 'S'
                     }
-        # print(attr_defns)
         try:
             new_table = DynamoTable.RESOURCE.create_table(
                                     TableName = self.table_name,
@@ -117,22 +117,26 @@ class DynamoTable(object):
 # Test Code
 
 if __name__ == "__main__":
-    test = Dbase('test_table')
-    print(f"Table Name: {test.table}")
+    # test = Dbase('test_table')
+    # print(f"Table Name: {test.table}")
     # print(f"Attribute Names: {test.attribute_names}")
-    print(test.insert_record(column1='good', column2='OK'))
-    print(test.get_record('column1', 'good'))
-    print(test.delete_record('column1','good'))
+    # print(test.insert_record(column1='good', column2='OK'))
+    # print(test.get_record('column1', 'good'))
+    # print(test.delete_record('column1','good'))
     
-
+    """ 
     connections = Dbase('ChatSvrConnections')
     print(f"Table Name: {connections.table}")
     # print(f"Attribute Names: {connections.attribute_names}")
     print(connections.insert_record(connectionId='wwdsa123', roomId='chat123'))
     print(connections.get_record('connectionId', 'wwdsa123'))
     print(connections.delete_record('connectionId', 'wwdsa123'))
+    """
+    # test_table = DynamoTable('NEW_TABLE')
+    # test_table.create_table('Room')
+    # test_table.delete_table()
 
-    # test_table = DynamoTable('test_table')
-    # test_table.create_table('column1')
 
 
+
+#               ******Copyright (c) 2019-2020. Gallatin Engineering Ltd. All Rights Reserved.******
